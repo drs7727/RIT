@@ -76,4 +76,5 @@ public class RITViewer extends Application {
         arguments = args;
         Application.launch(args);
     }
+
 }
