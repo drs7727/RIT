@@ -114,9 +114,8 @@ public class RITViewer extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         arguments = args;
         Application.launch(args);
     }
-
 }
