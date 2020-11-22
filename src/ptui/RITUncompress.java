@@ -5,12 +5,28 @@ import model.RITQTNode;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
+/**
+ * RITUncompress is a system that takes a compressed image and breaks it into a text file.
+ * It takes two arguments -inputfile -outputfile
+ *
+ * RITUncompress successfully does this process through the following steps.
+ * - buildList -- takes the input image and generates an arraylist to iterate through
+ * - parse -- generates a quadtree from the arraylist
+ * - brickify -- generates a 2d array (brick) representation of the image
+ * - Final Step: iterate through the 2d array and write the text file using I/O
+ */
 public class RITUncompress {
     private static String arguments[];
+
+    /**
+     * Main method creates a compressor object and does the processes necessary
+     * to output a decompressed file.
+     * @param args the 2 arguments required for output (two text file names)
+     */
     public static void main(String[] args) {
         if (args.length != 2) {
             System.out.println("Usage: java RITUncompress compressed.rit uncompressed.txt");
@@ -24,7 +40,7 @@ public class RITUncompress {
 
         // build an arraylist from the file
         ArrayList<Integer> intList = decompressor.buildList(compressedImage);
-        ArrayList<Integer> origional = intList;
+        ArrayList<Integer> original = decompressor.buildList(compressedImage);
         int area = intList.get(0); // get base area
         intList.remove(0);
 
@@ -46,16 +62,42 @@ public class RITUncompress {
             }
         }
 
+
+        //prints out the name of the file we are uncompressing
         System.out.println("Uncompressing: " + args[0]);
-        System.out.println("QTree: " );
-        for(int i = 0; i< origional.size(); i++)
+        //prints out the quad tree of the file
+        System.out.print("QTree: " );
+        //reads the uncompressed image to the file for viewing
+        for(int i = 0; i< original.size(); i++)
         {
-            System.out.print(origional.get(i));
+            System.out.print(original.get(i) + " ");
         }
-        System.out.println("Output file: ");
+        System.out.println();
+        try {
+            FileWriter writer = new FileWriter("uncompressed\\" + arguments[1]);
+            for(int num : master)
+            {
+                String str = num + "";
+                writer.write(str);
+                writer.write("\n");
+            }
+            writer.close();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        //tells what the output file is
+        System.out.println("Output file: " + arguments[1]);
+
 
     }
 
+    /**
+     * Turns the input file into a arraylist
+     * @param compressedImg the input being read from the file
+     * @return a list of integers given from the file
+     */
     public ArrayList<Integer> buildList(File compressedImg) {
         Scanner scnr = null;
         try {
@@ -75,6 +117,11 @@ public class RITUncompress {
         return compressedValues;
     }
 
+    /**
+     * returns the node of the quad tree
+     * @param list takes the list read in from the file
+     * @return a quad tree node from the list given
+     */
     public RITQTNode parse(ArrayList<Integer> list)
     {
         if(list.size() !=0) {
