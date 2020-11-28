@@ -74,7 +74,7 @@ public class RITUncompress {
         }
         System.out.println();
         try {
-            FileWriter writer = new FileWriter(arguments[1]);
+            FileWriter writer = new FileWriter("uncompressed\\" + arguments[1]);
             for(int num : master)
             {
                 String str = num + "";
@@ -201,6 +201,4 @@ public class RITUncompress {
             return littleBrick;
         }
     }
-
-
 }
