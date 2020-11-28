@@ -85,7 +85,8 @@ public class RITUncompress {
         }
         catch(IOException e)
         {
-            e.printStackTrace();
+            System.err.println("Error: The output file cannot be created: " + arguments[1]);
+            System.exit(0);
         }
         //tells what the output file is
         System.out.println("Output file: " + arguments[1]);
