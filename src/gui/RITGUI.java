@@ -20,6 +20,7 @@ import ptui.RITUncompress;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class RITGUI extends Application {
@@ -36,6 +37,7 @@ public class RITGUI extends Application {
     Canvas can;
     GraphicsContext gc;
     BorderPane bp;
+    TextField consoleOutput;
 
     /**
      * Starting point of the application.
@@ -66,7 +68,7 @@ public class RITGUI extends Application {
 
         TextField inputField = new TextField();
         TextField outputField = new TextField();
-        TextField consoleOutput = new TextField();
+        consoleOutput = new TextField();
         consoleOutput.setEditable(false);
 
         // Set up the buttons
@@ -106,6 +108,7 @@ public class RITGUI extends Application {
         bp2.setBottom(bp4);
         bp.setTop(bp2);
 
+        consoleOutput.setMinHeight(100);
         bp.setBottom(consoleOutput);
 
         // set actions on dropdown
@@ -171,8 +174,8 @@ public class RITGUI extends Application {
             scnr = new Scanner(testImage);
         }
         catch(IOException fnfe) {
-            System.err.println("Error: The file name specified is invalid: " + inputImg);
-            System.exit(0);
+            consoleOutput.setText("Error: The file name specified is invalid: " + inputImg);
+            return;
         }
 
         // find res_base
@@ -182,8 +185,8 @@ public class RITGUI extends Application {
             counter = new Scanner(testImage);
         }
         catch(IOException fnfe) {
-            System.err.println("Error: The file name specified is invalid: " + inputImg);
-            System.exit(0);
+            consoleOutput.setText("Error: The file name specified is invalid: " + inputImg);
+            return;
         }
         while (counter.hasNextLine()) {
             counter.nextLine();
@@ -207,13 +210,13 @@ public class RITGUI extends Application {
                     val = Double.parseDouble(line);
                 }
                 catch(Exception e) {
-                    System.err.println("Value specified is invalid at line " + (x + y*res_base)+1);
-                    System.exit(0);
+                    consoleOutput.setText("Value specified is invalid at line " + (x + y*res_base)+1);
+                    return;
 
                 }
                 if(val<0 || val>255) {
-                    System.err.println("Invalid integer value for color");
-                    System.exit(0);
+                    consoleOutput.setText("Invalid integer value for color");
+                    return;
                 }
                 Color c = new Color(val/255, val/255, val/255, 1);
                 gc.setFill(c);
