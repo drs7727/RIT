@@ -22,6 +22,8 @@ import java.util.Scanner;
 public class RITUncompress {
     private static String arguments[];
 
+    private String debugString = "";
+
     /**
      * Main method creates a compressor object and does the processes necessary
      * to output a decompressed file.
@@ -66,16 +68,17 @@ public class RITUncompress {
         }
 
 
-        //prints out the name of the file we are uncompressing
-        System.out.println("Uncompressing: " + args[0]);
+        // prints out the name of the file we are uncompressing
+        debugString += "Uncompressing: " + args[0] + "\n";
+
         //prints out the quad tree of the file
-        System.out.print("QTree: " );
+        debugString += "QTree: \n";
+
         //reads the uncompressed image to the file for viewing
         for(int i = 0; i< original.size(); i++)
         {
-            System.out.print(original.get(i) + " ");
+            debugString += original.get(i) + " \n";
         }
-        System.out.println();
         try {
             FileWriter writer = new FileWriter("uncompressed\\" + arguments[1]);
             for(int num : master)
@@ -92,7 +95,9 @@ public class RITUncompress {
             System.exit(0);
         }
         //tells what the output file is
-        System.out.println("Output file: " + arguments[1]);
+        debugString += "Output file: " + arguments[1];
+
+        System.out.println(debugString);
     }
 
 
@@ -203,5 +208,14 @@ public class RITUncompress {
             }
             return littleBrick;
         }
+    }
+
+    /**
+     * Return debug String of class after initiation
+     * @return debug String of data after decompression
+     */
+    public String getDebug()
+    {
+        return debugString;
     }
 }

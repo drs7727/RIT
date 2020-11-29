@@ -11,6 +11,10 @@ public class RITCompress {
     private static String[] arguments;
     private static int area;
     private static ArrayList<Integer> compressedFile;
+
+    // debug String to be reported by the class
+    private String debugString = "";
+
     public static void main(String[] args) {
         if (args.length != 2) {
             System.out.println("Usage: java RITCompress uncompressed-file.txt compressed-file.rit");
@@ -57,15 +61,17 @@ public class RITCompress {
         double compressionPercent = 100 - ((double)data.size() / (double)area * 100);
 
         // Printing out data
-        System.out.println("QTree: ");
+        System.out.println("QTree: \n");
         for(int i = 1; i < data.size(); i++)
         {
-            System.out.print(data.get(i) + " ");
+            debugString += data.get(i) + " ";
         }
-        System.out.println("\nOutput file: " + arguments[1]);
-        System.out.println("Raw image size: " + area);
-        System.out.println("Compresseed image size: " + data.size());
-        System.out.println("Compresson %: " + compressionPercent);
+
+        debugString += "\nOutput file: " + arguments[1];
+        debugString += "\nRaw image size: " + area;
+        debugString += "\nCompresseed image size: " + data.size();
+        debugString += "\nCompresson %: " + compressionPercent;
+        System.out.println(debugString);
     }
 
     /**
@@ -244,5 +250,14 @@ public class RITCompress {
             //returns list
             return compressedVal;
         }
+    }
+
+    /**
+     * Get debug elements from class
+     * @return String of debug elements
+     */
+    public String getDebug()
+    {
+        return debugString;
     }
 }
