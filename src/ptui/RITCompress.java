@@ -16,22 +16,25 @@ public class RITCompress {
             System.out.println("Usage: java RITCompress uncompressed-file.txt compressed-file.rit");
             return;
         }
+        RITCompress compressor = new RITCompress(args);
+    }
 
+    public RITCompress(String[] args)
+    {
         // create image and decompressor from args
         arguments = args;
         File compressedImage = new File("uncompressed\\" + args[0]);
-        ptui.RITCompress compressor = new ptui.RITCompress();
 
         System.out.println("Compressing: images/uncompressed/" + args[0]);
 
         // build an arraylist from the file
-        ArrayList<Integer> intList = compressor.buildList(compressedImage);
+        ArrayList<Integer> intList = buildList(compressedImage);
         area = intList.size();
 
-        int[][] originalBrick = compressor.brickify(intList, area);
+        int[][] originalBrick = brickify(intList, area);
 
         // Assemble a list of values to write to the file
-        ArrayList<Integer> data = compressor.compressedList(originalBrick);
+        ArrayList<Integer> data = compressedList(originalBrick);
         data.add(0, area);
 
         // Write the data (list) to an output file
@@ -63,15 +66,6 @@ public class RITCompress {
         System.out.println("Raw image size: " + area);
         System.out.println("Compresseed image size: " + data.size());
         System.out.println("Compresson %: " + compressionPercent);
-        /**
-         * Compressing: images/uncompressed/simple4x4.txt
-         * QTree: -1 0 -1 0 85 170 255 170 -1 255 85 170 0
-         * Output file: simple4x4.rit
-         * Raw image size: 16
-         * Compressed image size: 14
-         * Compression %: 12.5
-         * Errors
-         */
     }
 
     /**

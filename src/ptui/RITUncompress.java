@@ -32,25 +32,28 @@ public class RITUncompress {
             System.out.println("Usage: java RITUncompress compressed.rit uncompressed.txt");
             return;
         }
+        RITUncompress decompressor = new RITUncompress(args);
+    }
 
+    public RITUncompress(String[] args)
+    {
         // create image and decompressor from args
         arguments = args;
         File compressedImage = new File("compressed\\" + args[0]);
-        ptui.RITUncompress decompressor = new ptui.RITUncompress();
 
         // build an arraylist from the file
-        ArrayList<Integer> intList = decompressor.buildList(compressedImage);
-        ArrayList<Integer> original = decompressor.buildList(compressedImage);
+        ArrayList<Integer> intList = buildList(compressedImage);
+        ArrayList<Integer> original = buildList(compressedImage);
         int area = intList.get(0); // get base area
         intList.remove(0);
 
         // generate quadtree from generated arraylist
-        RITQTNode quadtree = decompressor.parse(intList);
+        RITQTNode quadtree = parse(intList);
 
         /* create a 'brick' by traversing through the tree and making a 2d array
         representation of the image
         */
-        int[][] brick = decompressor.brickify(quadtree, area, true);
+        int[][] brick = brickify(quadtree, area, true);
 
         // assemble the 'brick' into a linear arraylist
         ArrayList<Integer> master = new ArrayList<Integer>();
@@ -90,9 +93,8 @@ public class RITUncompress {
         }
         //tells what the output file is
         System.out.println("Output file: " + arguments[1]);
-
-
     }
+
 
     /**
      * Turns the input file into a arraylist
